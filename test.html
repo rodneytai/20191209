@@ -1,0 +1,80 @@
+<html>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAkpup8yfXoeFyHB5iavv33aPe9H0Q9_CE",
+    authDomain: "project-1059501240688085436.firebaseapp.com",
+    databaseURL: "https://project-1059501240688085436.firebaseio.com",
+    projectId: "project-1059501240688085436",
+    storageBucket: "project-1059501240688085436.appspot.com",
+    messagingSenderId: "328722251298",
+    appId: "1:328722251298:web:c5105eb062fac8a235d47b",
+    measurementId: "G-3WKRSRRQ9T"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  // firebase.analytics();
+</script>
+
+<script>
+var db = firebase.database();
+function writeUserData(userId, name, email, webUrl) {
+	// 這個例子是會創一個 users 的 collection
+	db.ref('/users/' + userId).set({
+		username: name,
+	    email: email,
+	    personal_website: webUrl
+	})
+	.then(function () {alert("建立成功");})
+	.catch(function () {alert("伺服器發生錯誤，請稍後再試");});
+}
+//writeUserData(1, 'Gary', 'gary@nutc.edu.tw', 'http://gary.tw')
+//writeUserData(2, 'Jason', 'jason@nutc.edu.tw', 'http://jason.tw')
+</script>
+
+<script>
+function readUserData(userId) {
+	db.ref('/users/' + userId).once('value', function (snapshot) {
+		var data = snapshot.val();
+	    console.log(data);
+	});
+}
+</script>
+
+<body>
+<form action="" method="POST">
+	<table>
+		<tr>
+            <td>
+                <p>Name: <input type="text" name="name"></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Email: <input type="text" name="email"></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Website: <input type="text" name="website"></p>
+            </td>
+        </tr>
+        <button onclick="writeUserData()">Submit</button>
+	</table>
+
+    <table>
+        <tr>
+            <td>
+                <button onclick="readUserData()">Read</button>
+            </td>
+        </tr>
+    </table>
+</form>		
+</body>
+
+
+</html>
